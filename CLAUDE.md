@@ -9,7 +9,7 @@
 
 ## Rules
 - IMPORTANT: Prompts live in `prompts/` as versioned files. Never inline prompt strings in code.
-- Any change to a prompt or agent logic must be followed by `make eval-fast`. Show the output before calling the work done. `make eval-fast` defaults to a mock client (`APP_LLM_MODE=mock`, free, no key required) - it's a routing/shape/plumbing check, not a quality gate. For a change that could affect output quality (a prompt's content, agent logic, a model choice), also run `make eval-fast-live` deliberately and report its real numbers - it costs real API money, so don't run it as part of routine iteration.
+- Any change to a prompt or agent logic must be followed by `make eval-fast`. Show the output before calling the work done. `make eval-fast` defaults to a mock client (`APP_LLM_MODE=mock`, free, no key required) - it's a routing/shape/plumbing check, not a quality gate. For a change that could affect output quality (a prompt's content, an agent logic, a model choice), also run `make eval-fast-live` deliberately and report its real numbers - it costs real API money, so don't run it as part of routine iteration.
 - Eval cases and thresholds (`evals/`) change only through explicit, separate commits. Never edit them to make a failing eval pass. If a case turns out to be genuinely unstable across identical live runs, see `evals/README.md`'s "Cases the model itself is unstable on" - move it, don't force-fit or drop it.
 - Never commit secrets. Config comes from environment variables; `.env.example` lists what's needed.
 - Every agent loop must have a step cap and a cost cap, both set in `src/app/config.py`. Both defaults there are guesses - see `evals/thresholds.yaml`'s comment - validate them against a real `make eval-fast-live` run before trusting them, and expect to raise them at least once.
@@ -27,6 +27,17 @@ Write `docs/sessions/<YYYY-MM-DD>-<short-slug>.md` before handing off, even if n
 - Test/lint/typecheck status
 - Open questions or things you'd flag for review before this merges
 - Exact next command the user should run (e.g. `git diff main`, `make eval-fast`)
+
+## Working notes and decisions log
+`docs/working-notes-and-decisions.md` is a different, longer-lived record than the session docs
+above. Session docs narrate one sitting's diff; the working notes log is a short, durable list of
+decisions (with the reasoning, not just the choice) and open items worth remembering - meant to be
+skimmed months later, not read start to end. Update it whenever a real decision actually gets made
+(scope, sequencing, what to defer and why, a tradeoff picked between options) - not just as an
+end-of-session ritual. If something is already fully written up elsewhere (a technical fix in a
+session doc, a bug in the README's Known Failures, a design tradeoff in an ADR), link to it here
+rather than duplicating the detail. A blank template lives at `docs/working-notes-and-decisions.md`
+in this repo - projects cloned from this template start with it and should fill it in as they go.
 
 ## Conventions
 - Conventional Commits (`feat:`, `fix:`, `eval:`, `docs:`, `chore:`).
