@@ -4,19 +4,29 @@
 - Install: `make install`
 - Lint + format check: `make lint`
 - Tests: `make test` (single test: `uv run pytest tests/test_x.py::test_name`)
-- Fast evals: `make eval-fast` (run after ANY change to prompts or agent logic)
+- Fast evals (mock, free): `make eval-fast` (run after ANY change to prompts or agent logic)
+- Fast evals (live, real API cost): `make eval-fast-live` - run deliberately, not routinely
 
 ## Rules
 - IMPORTANT: Prompts live in `prompts/` as versioned files. Never inline prompt strings in code.
-- Any change to a prompt or agent logic must be followed by `make eval-fast`. Show the output before calling the work done.
-- Eval cases and thresholds (`evals/`) change only through explicit, separate commits. Never edit them to make a failing eval pass.
+- Any change to a prompt or agent logic must be followed by `make eval-fast`. Show the output before calling the work done. `make eval-fast` defaults to a mock client (`APP_LLM_MODE=mock`, free, no key required) - it's a routing/shape/plumbing check, not a quality gate. For a change that could affect output quality (a prompt's content, agent logic, a model choice), also run `make eval-fast-live` deliberately and report its real numbers - it costs real API money, so don't run it as part of routine iteration.
+- Eval cases and thresholds (`evals/`) change only through explicit, separate commits. Never edit them to make a failing eval pass. If a case turns out to be genuinely unstable across identical live runs, see `evals/README.md`'s "Cases the model itself is unstable on" - move it, don't force-fit or drop it.
 - Never commit secrets. Config comes from environment variables; `.env.example` lists what's needed.
-- Every agent loop must have a step cap and a cost cap, both set in `src/app/config.py`.
+- Every agent loop must have a step cap and a cost cap, both set in `src/app/config.py`. Both defaults there are guesses - see `evals/thresholds.yaml`'s comment - validate them against a real `make eval-fast-live` run before trusting them, and expect to raise them at least once.
 - Log every LLM/tool call through `src/app/tracing.py` so runs are inspectable.
 - Record non-obvious design decisions as a short ADR in `docs/adr/`.
 
 ## Definition of done
-Lint clean, tests pass, `make eval-fast` meets `evals/thresholds.yaml`, README results table updated if numbers changed.
+Lint clean, tests pass, `make eval-fast` (mock) passes `evals/thresholds.yaml` as a plumbing check. For anything touching output quality (prompts, agent logic, model choice), `make eval-fast-live`'s real numbers vs. `evals/thresholds.yaml` are the actual quality gate - report them, don't just cite the mock pass. README results table updated if live numbers changed.
+
+## Session summary (required at the end of every implementation session)
+Write `docs/sessions/<YYYY-MM-DD>-<short-slug>.md` before handing off, even if not asked. It's read by someone outside this session with no other context, so write it plainly, not as agent notes to self. Include:
+- What changed and why (the key decisions, not a diff narration)
+- Anything you asked the user to choose between mid-session, and what was picked
+- Eval numbers: tier run, pass rate, latency p95, mean cost, vs. thresholds
+- Test/lint/typecheck status
+- Open questions or things you'd flag for review before this merges
+- Exact next command the user should run (e.g. `git diff main`, `make eval-fast`)
 
 ## Conventions
 - Conventional Commits (`feat:`, `fix:`, `eval:`, `docs:`, `chore:`).

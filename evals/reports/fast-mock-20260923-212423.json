@@ -1,0 +1,34 @@
+{
+  "summary": {
+    "tier": "fast",
+    "llm_mode": "mock",
+    "n_cases": 2,
+    "pass_rate": 1.0,
+    "latency_p95_s": 0.0032,
+    "mean_cost_usd": 0.0,
+    "total_cost_usd": 0.0
+  },
+  "failures": [],
+  "results": [
+    {
+      "id": "example-001",
+      "category": "smoke",
+      "passed": true,
+      "latency_s": 0.0032074259943328798,
+      "cost_usd": 0.0,
+      "steps": 0,
+      "error": null,
+      "output": "The quick brown fox"
+    },
+    {
+      "id": "example-002",
+      "category": "smoke",
+      "passed": true,
+      "latency_s": 0.002210820995969698,
+      "cost_usd": 0.0,
+      "steps": 0,
+      "error": null,
+      "output": "Hello world"
+    }
+  ]
+}
