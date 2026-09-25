@@ -1,5 +1,16 @@
 # CLAUDE.md
 
+## Session startup (read these in full before doing anything else)
+1. `Chat_Instructions.md` in the "Applied AI Portfolio Projects" Claude Project - collaboration
+   workflow (device-bridge file writes, hand off shell/git commands to Max, known gotchas). Read
+   once; it doesn't change per repo.
+2. This file, in full.
+3. `docs/lessons-learned.md` - gaps found building real projects against this template, and
+   whether each has been applied back here yet.
+4. If cloning this template to start a new project: also read the target project's own
+   `docs/working-notes-and-decisions.md` and `docs/todo.md` once they exist (this template's
+   copies are blank stubs, not live content).
+
 ## Commands
 - Install: `make install`
 - Lint + format check: `make lint`
