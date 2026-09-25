@@ -39,6 +39,14 @@ session doc, a bug in the README's Known Failures, a design tradeoff in an ADR),
 rather than duplicating the detail. A blank template lives at `docs/working-notes-and-decisions.md`
 in this repo - projects cloned from this template start with it and should fill it in as they go.
 
+## To-do list
+`docs/todo.md` is the running checklist - what's next, in priority order, checked off with a short
+note as items get done. Different from the working notes log above: that's decisions and reasoning,
+this is just task state. Keep it current as priorities shift, not just when items complete - it's
+meant to answer "what do I work on next" after time away without having to reconstruct it from
+session docs. A blank template lives at `docs/todo.md` in this repo - projects cloned from this
+template start with it.
+
 ## Conventions
 - Conventional Commits (`feat:`, `fix:`, `eval:`, `docs:`, `chore:`).
 - One logical change per commit; small PRs.
