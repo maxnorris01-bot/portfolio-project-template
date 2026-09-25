@@ -85,11 +85,11 @@ Agent's buy/wait/skip verdict).
 ### Status
 
 All seven gaps above are applied to this template's own code as of 2026-09-23 - see each item's
-`[APPLIED]` tag. Not yet done, and worth treating as real follow-up rather than assuming it
-happened automatically: running this template's own `make install && make lint && make typecheck
-&& make test && make eval-fast` for the first time since these changes, to confirm the ported code
-actually compiles and passes cleanly in a fresh environment (it was written by porting proven code
-from Claim Verification, not independently verified against this template's own toolchain yet).
+`[APPLIED]` tag. `make install && make lint && make typecheck && make test && make eval-fast` was
+run against the ported code on 2026-09-23 and confirmed clean. One real issue turned up along the
+way: `make lint` failed on a `ruff format` mismatch in `evals/run.py` (a long f-string the
+formatter wanted collapsed to one line) - fixed by running `make format` before `make lint`, no
+behavior change. No other issues found.
 
 ### Still open, not applied here (in scope for a future pass, not this one)
 
