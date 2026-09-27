@@ -7,7 +7,9 @@ from app.prompts import load_prompt
 
 def test_prompt_loads_with_version() -> None:
     prompt = load_prompt("example")
-    assert prompt.version == "1"
+    # Any positive integer version is valid. Don't hardcode a number here: it changes every time a
+    # prompt is revised (Claim Verification's copy of this test broke on a v1 -> v3 bump).
+    assert prompt.version.isdigit() and int(prompt.version) >= 1
     assert prompt.text
 
 
