@@ -43,9 +43,12 @@ template's own code yet - a found-but-not-applied gap is still real, just not ac
 5. **No aggregate, run-level cost cap. `[APPLIED 2026-09-23]`** Added an optional
    `max_total_cost_usd` threshold (`evals/thresholds.yaml`) and a check in `evals/run.py` that sums
    `cost_usd` across all results and fails the run if it's exceeded - a CI-time backstop on top of
-   `Config.max_cost_usd`'s per-case cap. This is genuinely new, not just ported: Claim Verification
-   itself still doesn't have this and instead relies on a manually-set Anthropic Console spend
-   limit as the only aggregate backstop.
+   `Config.max_cost_usd`'s per-case cap. This was genuinely new, not just ported: Claim
+   Verification didn't have it at first and relied on a manually-set Anthropic Console spend limit
+   as the only aggregate backstop. **Claim Verification adopted it back on 2026-09-26**
+   (`max_total_cost_usd: 2.50`, sized for its 13-case fast tier), so the pattern is now proven in a
+   real project. One thing it surfaced: the value is a single number across all tiers, so a project
+   with a much larger standard/nightly tier needs per-tier values or a higher number.
 
 6. **Placeholder thresholds were very optimistic. `[APPLIED 2026-09-23]`** `max_latency_p95_s`
    raised from `2.0` to `30.0` as a more realistic (still explicitly a guess) starting point, and
